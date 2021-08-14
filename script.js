@@ -45,9 +45,41 @@ function generatePassword() {
   return randomPassword;
 } 
 
+// checks if user has selected any criteria
 function hasCriteria() {
   return (lowercaseInput.checked || uppercaseInput.checked || numbersInput.checked || specialInput.checked);
 }
+
+// validity check
+function isPasswordValid(charCheck) {
+  var stringIncLowers = true;
+  var stringIncUppers = true;
+  var stringIncNumbers = true;
+  var stringIncSpecials = true;
+
+  if (lowercaseInput.checked) {
+    var mustContainOne = pwc.letters.split("");
+    stringIncLowers = mustContainOne.some(c => charCheck.includes(c));
+    console.log("Lowercase: " + stringIncLowers);
+  }
+  if (uppercaseInput.checked) {
+    var mustContainOne = pwc.letters.toUpperCase().split("");
+    stringIncUppers = mustContainOne.some(c => charCheck.includes(c));
+    console.log("Uppercase: " + stringIncUppers);
+  }
+  if (numbersInput.checked) {
+    var mustContainOne = pwc.numeric.split("");
+    stringIncNumbers = mustContainOne.some(c => charCheck.includes(c));
+    console.log("Numbers: " + stringIncNumbers);
+  }
+  if (specialInput.checked) {
+    var mustContainOne = pwc.special.split("");
+    stringIncSpecials = mustContainOne.some(c => charCheck.includes(c));
+    console.log("Specials: " + stringIncSpecials);
+  }
+  // if all of these are true, return true
+  return (stringIncLowers && stringIncUppers && stringIncNumbers && stringIncSpecials);
+} 
 
 //Random number gen
 function randomGen(optionList) {
@@ -108,35 +140,5 @@ generateBtn.addEventListener("click", writePassword);
 criteriaBtn.addEventListener("click", showCriteria);
 lengthInput.addEventListener("change", updateLength);
 
-//TODO: 
-// validity check
-function isPasswordValid(charCheck) {
-  var stringIncLowers = true;
-  var stringIncUppers = true;
-  var stringIncNumbers = true;
-  var stringIncSpecials = true;
 
-  if (lowercaseInput.checked) {
-    var mustContainOne = pwc.letters.split("");
-    stringIncLowers = mustContainOne.some(c => charCheck.includes(c));
-    console.log("Lowercase: " + stringIncLowers);
-  }
-  if (uppercaseInput.checked) {
-    var mustContainOne = pwc.letters.toUpperCase().split("");
-    stringIncUppers = mustContainOne.some(c => charCheck.includes(c));
-    console.log("Uppercase: " + stringIncUppers);
-  }
-  if (numbersInput.checked) {
-    var mustContainOne = pwc.numeric.split("");
-    stringIncNumbers = mustContainOne.some(c => charCheck.includes(c));
-    console.log("Numbers: " + stringIncNumbers);
-  }
-  if (specialInput.checked) {
-    var mustContainOne = pwc.special.split("");
-    stringIncSpecials = mustContainOne.some(c => charCheck.includes(c));
-    console.log("Specials: " + stringIncSpecials);
-  }
-  // if all of these are true, return true
-  return (stringIncLowers && stringIncUppers && stringIncNumbers && stringIncSpecials);
-} 
   
