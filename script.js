@@ -2,6 +2,13 @@
 var generateBtn = document.querySelector("#generate");
 var criteriaBtn = document.querySelector("#criteria");
 var lengthInput = document.querySelector("#length");
+var passwordText = document.querySelector("#password");
+
+// obtain user criteria
+var lowercaseInput = document.querySelector("#lowercase")
+var uppercaseInput = document.querySelector("#uppercase")
+var numbersInput = document.querySelector("#numbers")
+var specialInput = document.querySelector("#special")
 
 // Password criteria
 var pwc = {
@@ -15,12 +22,6 @@ var pwc = {
 function generatePassword() {
   var randomPassword = "";
   var selected = "";
-
-  // obtain user criteria
-  var lowercaseInput = document.querySelector("#lowercase")
-  var uppercaseInput = document.querySelector("#uppercase")
-  var numbersInput = document.querySelector("#numbers")
-  var specialInput = document.querySelector("#special")
 
   // adds user criteria to selected array
   if (lowercaseInput.checked == true) {
@@ -43,6 +44,10 @@ function generatePassword() {
   }
   return randomPassword;
 } 
+
+function hasCriteria() {
+  return (lowercaseInput.checked || uppercaseInput.checked || numbersInput.checked || specialInput.checked);
+}
 
 //Random number gen
 function randomGen(optionList) {
@@ -78,10 +83,20 @@ function updateLength() {
 
 // Write password to the #password input
 function writePassword() {
-  var password = generatePassword();
-  var passwordText = document.querySelector("#password");
-
-  passwordText.value = password;
+  //when no criteria is set
+  //== true is implied
+  if (hasCriteria()) {
+    var foundPassword = false;
+    var password = "";
+    while (!foundPassword) {
+      password = generatePassword();
+      // check password valid
+      foundPassword = isPasswordValid(password);
+    }
+    passwordText.value = password;
+  } else {
+    passwordText.value = "You need to select criteria before you can generate a password.";
+  }
 }
 
 // Add event listener to buttons
@@ -89,3 +104,14 @@ generateBtn.addEventListener("click", writePassword);
 criteriaBtn.addEventListener("click", showCriteria);
 lengthInput.addEventListener("change", updateLength);
 
+//TODO: 
+// validity check
+function isPasswordValid(password) {
+  var passwordArray = password.split();
+  if (lowercaseInput.checked) {
+    var lettersArray = pwc.letters.split();
+    for (var i=0; i < pwc.length; i++) {
+        
+    }
+  }
+}
