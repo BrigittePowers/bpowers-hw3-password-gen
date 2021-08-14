@@ -1,4 +1,4 @@
-// Assignment Code
+// assigning elements to global variables
 var generateBtn = document.querySelector("#generate");
 var criteriaBtn = document.querySelector("#criteria");
 var lengthInput = document.querySelector("#length");
@@ -10,7 +10,7 @@ var uppercaseInput = document.querySelector("#uppercase")
 var numbersInput = document.querySelector("#numbers")
 var specialInput = document.querySelector("#special")
 
-// Password criteria
+// Password criteria options & defaults
 var pwc = {
   letters: "abcdefghijklmnopqrstuvwxyz",
   numeric: "013456789",
@@ -89,11 +89,15 @@ function writePassword() {
     var foundPassword = false;
     var password = "";
     while (!foundPassword) {
+      // make a new password
       password = generatePassword();
-      // check password valid
+      // check password matches selected criteria
       foundPassword = isPasswordValid(password);
+      console.log("Generating Password");
     }
     passwordText.value = password;
+    console.log("Generated Password:" + password);
+    console.log(foundPassword);
   } else {
     passwordText.value = "You need to select criteria before you can generate a password.";
   }
@@ -106,12 +110,33 @@ lengthInput.addEventListener("change", updateLength);
 
 //TODO: 
 // validity check
-function isPasswordValid(password) {
-  var passwordArray = password.split();
+function isPasswordValid(charCheck) {
+  var stringIncLowers = true;
+  var stringIncUppers = true;
+  var stringIncNumbers = true;
+  var stringIncSpecials = true;
+
   if (lowercaseInput.checked) {
-    var lettersArray = pwc.letters.split();
-    for (var i=0; i < pwc.length; i++) {
-        
-    }
+    var mustContainOne = pwc.letters.split("");
+    stringIncLowers = mustContainOne.some(c => charCheck.includes(c));
+    console.log("Lowercase: " + stringIncLowers);
   }
-}
+  if (uppercaseInput.checked) {
+    var mustContainOne = pwc.letters.toUpperCase().split("");
+    stringIncUppers = mustContainOne.some(c => charCheck.includes(c));
+    console.log("Uppercase: " + stringIncUppers);
+  }
+  if (numbersInput.checked) {
+    var mustContainOne = pwc.numeric.split("");
+    stringIncNumbers = mustContainOne.some(c => charCheck.includes(c));
+    console.log("Numbers: " + stringIncNumbers);
+  }
+  if (specialInput.checked) {
+    var mustContainOne = pwc.special.split("");
+    stringIncSpecials = mustContainOne.some(c => charCheck.includes(c));
+    console.log("Specials: " + stringIncSpecials);
+  }
+  // if all of these are true, return true
+  return (stringIncLowers && stringIncUppers && stringIncNumbers && stringIncSpecials);
+} 
+  
